@@ -70,7 +70,7 @@ def my_csv():
     df = pd.read_csv('180000.csv', names=["num", "doc", "type"])
     my_docs = df["doc"][:30000].tolist()
     my_docs.sort()
-    # print(len(my_docs))
+    print(len(my_docs))
     return my_docs
 
 
