@@ -28,4 +28,4 @@ The options will be:
 
 
 So in the first type we do not omit words like "כש" and in the second type we do not omit them.
-(In the second example we also added the characters @@ before the beginning of a certain word and && at the end for example: "@@כש אכל תי&&").
+(In the second example we also added the characters @@ before the beginning of a certain word and && at the end for example: "&&כש אכל תי@@").
