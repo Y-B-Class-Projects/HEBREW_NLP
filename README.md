@@ -18,5 +18,7 @@ For each article we built two file types and put them in folders named type_1 an
 
 For example, for the sentence "אתמול כשאכלתי ארוחה טובה ראיתי כמה נקודות על הקיר"
 The options will be:
+
 1:אכל ארוחה טוב ראה כמה נקודה על קיר
+
 2:אתמול כש אכל תי ארוחה טוב ה ראה תי כמה נקודה ות על ה קיר
