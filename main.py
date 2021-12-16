@@ -25,13 +25,11 @@ def yap(file):
     command_01 = "\"" + os.getcwd() + "\yap.exe\" hebma -raw " + file + " -out input.lattice"
     p = subprocess.Popen(command_01, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     p.communicate()
-    command_02 = "\"" + os.getcwd() + "\yap.exe\" joint -in input.lattice -os output.segmentation -om output.mapping -oc output.conll"
+    command_02 = "\"" + os.getcwd() + "\yap.exe\" yap md -in input.lattice -om output.mapping"
     p = subprocess.Popen(command_02, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     p.communicate()
 
     os.remove("input.lattice")
-    os.remove("output.conll")
-    os.remove("output.segmentation")
 
 
 def type_A(file):
@@ -74,7 +72,7 @@ def type_B(file):
 def my_unzip(docs_list):
     index = 0
     with ZipFile('Clean_Punctuation.zip', 'r') as zipObj:
-        listOfFileNames = ["Clean_Punctuation/" + str(n) + ".txt" for n in docs_list]  # zipObj.namelist()
+        listOfFileNames = ["Clean_Punctuation/" + str(n) + ".txt" for n in docs_list]
         for fileName in listOfFileNames:
             zipObj.extract(fileName, 'docs')
             index += 1
@@ -104,7 +102,11 @@ def main():
     docs = [f for f in listdir("docs/Clean_Punctuation") if isfile(join("docs/Clean_Punctuation", f))]
 
     for doc in tqdm(docs):
-        process_doc(doc)
+        if not isfile(join("docs/type_2", doc)):
+            try:
+                process_doc(doc)
+            except Exception as ex:
+                print("ERROR", doc, ex)
 
 
 if __name__ == '__main__':
