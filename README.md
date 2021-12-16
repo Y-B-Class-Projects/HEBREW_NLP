@@ -1,14 +1,14 @@
 # HEBREW_NLP
 
-Python script that processes documents in Hebrew and uses YAP software written by the Hebrew University.
+Python script that processes documents in Hebrew and uses [YAP](https://github.com/onlplab/yap) software written by the Hebrew University.
 
-To run the script, download this repository and add all the files from the YAP repository.
+To run the script, download this repository and add all the files from the [YAP](https://github.com/onlplab/yap) repository.
 The main.py script must be run by python 3.
 
 All the files are inside the folder named docs.
 Inside the docs folder there is a folder called Clean_Punctuation where there are 30K articles in Hebrew
 First, the script converts those articles into tokens with which it will later be able to perform the natural language processing (NLP).
-Creating tokens in Hebrew is not an easy task, so we used a tool written by the Hebrew University called YAP.
+Creating tokens in Hebrew is not an easy task, so we used a tool written by the Hebrew University called [YAP](https://github.com/onlplab/yap).
 
 Examples of converting a word to a token in Hebrew:
 The word "כשאכלתי" will be converted to the words "כש" "אכל" "תי" when the root of the word will be "אכל".
