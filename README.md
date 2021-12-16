@@ -16,7 +16,10 @@ The word "כשאכלתי" will be converted to the words "כש" "אכל" "תי" 
 Since YAP is software and not a library for Python, it was necessary for our script to know how to convert the articles according to the requirements of YAP, run YAP and read its products and then convert back to files.
 For each article we built two file types and put them in folders named type_1 and type_2.
 
-For example, for the sentence "אתמול כשאכלתי ארוחה טובה ראיתי כמה נקודות על הקיר"
+For example, for the sentence 
+
+"אתמול כשאכלתי ארוחה טובה ראיתי כמה נקודות על הקיר"
+
 The options will be:
 
 1:אכל ארוחה טוב ראה כמה נקודה על קיר
