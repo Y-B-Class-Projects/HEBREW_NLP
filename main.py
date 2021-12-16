@@ -25,7 +25,7 @@ def yap(file):
     command_01 = "\"" + os.getcwd() + "\yap.exe\" hebma -raw " + file + " -out input.lattice"
     p = subprocess.Popen(command_01, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     p.communicate()
-    command_02 = "\"" + os.getcwd() + "\yap.exe\" yap md -in input.lattice -om output.mapping"
+    command_02 = "\"" + os.getcwd() + "\yap.exe\" md -in input.lattice -om output.mapping"
     p = subprocess.Popen(command_02, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     p.communicate()
 
@@ -101,12 +101,12 @@ def process_doc(doc):
 def main():
     docs = [f for f in listdir("docs/Clean_Punctuation") if isfile(join("docs/Clean_Punctuation", f))]
 
-    for doc in tqdm(docs):
-        if not isfile(join("docs/type_2", doc)):
-            try:
-                process_doc(doc)
-            except Exception as ex:
-                print("ERROR", doc, ex)
+    for doc in tqdm(docs[1000:10000]):
+        #if not isfile(join("docs/type_2", doc)):
+        try:
+            process_doc(doc)
+        except Exception as ex:
+            print("ERROR", doc, ex)
 
 
 if __name__ == '__main__':
