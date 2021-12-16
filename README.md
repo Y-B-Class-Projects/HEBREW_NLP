@@ -25,3 +25,6 @@ The options will be:
 1:אכל ארוחה טוב ראה כמה נקודה על קיר
 
 2:אתמול כש אכל תי ארוחה טוב ה ראה תי כמה נקודה ות על ה קיר
+
+So in the first type we do not omit words like "when" and in the second type we do not omit them.
+(In the second example we also added the characters @@ before the beginning of a certain word and && at the end for example: "@@כש אכל תי&&").
