@@ -1,6 +1,13 @@
 import os
+import subprocess
+from datetime import datetime
+from os import listdir
 from zipfile import ZipFile
 import pandas as pd
+from os.path import isfile, join
+from shutil import copyfile
+from tqdm import tqdm
+import multiprocessing as mp
 
 
 def fix_file_format(file):
@@ -16,10 +23,11 @@ def fix_file_format(file):
 
 def yap(file):
     command_01 = "\"" + os.getcwd() + "\yap.exe\" hebma -raw " + file + " -out input.lattice"
-    os.system(command_01)
-
+    p = subprocess.Popen(command_01, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    p.communicate()
     command_02 = "\"" + os.getcwd() + "\yap.exe\" joint -in input.lattice -os output.segmentation -om output.mapping -oc output.conll"
-    os.system(command_02)
+    p = subprocess.Popen(command_02, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    p.communicate()
 
     os.remove("input.lattice")
     os.remove("output.conll")
@@ -27,39 +35,46 @@ def yap(file):
 
 
 def type_A(file):
-    with open(file, encoding="utf8") as f:
+    with open("output.mapping", encoding="utf8") as f:
         lines = f.readlines()
 
-    for line in lines:
-        words = line.split()
-        if len(words) > 5:
-            if not words[5] in ["PREPOSITION", "CONJ", "DEF", "TEMP", "REL"]:
-                print(words[3], end=" ")
-    print()
+    with open(file, 'w+', encoding="utf8") as f:
+        for line in lines:
+            words = line.split()
+            if len(words) > 5:
+                if not words[5] in ["PREPOSITION", "CONJ", "DEF", "TEMP", "REL"]:
+                    if words[3] != '_':
+                        f.write(words[3] + " ")
+                    else:
+                        f.write(words[2] + " ")
 
 
 def type_B(file):
-    with open(file, encoding="utf8") as f:
+    with open("output.mapping", encoding="utf8") as f:
         lines = f.readlines()
-    prev_word_n = 0
-    for line in lines:
-        words = line.split()
-        if len(words) > 7:
-            word_n = words[7]
 
-            if word_n != prev_word_n:
-                prev_word_n = word_n
-                if prev_word_n != 0:
-                    print("&&", end=" ")
-                print("@@", end=" ")
-            print(words[3], end=" ")
-    print()
+    with open(file, 'w+', encoding="utf8") as f:
+        prev_word_n = 0
+        for line in lines:
+            words = line.split()
+            if len(words) > 7:
+                word_n = words[7]
+
+                if word_n != prev_word_n:
+                    prev_word_n = word_n
+                    if prev_word_n != 0:
+                        f.write("&& ")
+                    f.write("@@ ")
+                if words[3] != '_':
+                    f.write(words[3] + " ")
+                else:
+                    f.write(words[2] + " ")
 
 
 def my_unzip(docs_list):
     index = 0
     with ZipFile('Clean_Punctuation.zip', 'r') as zipObj:
-        listOfFileNames = ["Clean_Punctuation/"+str(n)+".txt" for n in docs_list] #zipObj.namelist()
+        listOfFileNames = ["Clean_Punctuation/" + str(n) + ".txt" for n in docs_list]  # zipObj.namelist()
         for fileName in listOfFileNames:
             zipObj.extract(fileName, 'docs')
             index += 1
@@ -74,9 +89,26 @@ def my_csv():
     return my_docs
 
 
-# fix_file_format("input.txt")
-# yap("input.txt")
-# type_A("output.mapping")
-# type_B("output.mapping")
-# docs_list = my_csv()
-# my_unzip(docs_list)
+def process_doc(doc):
+    _doc = "doc.txt"
+    doc_type1 = "docs/type_1/" + doc
+    doc_type2 = "docs/type_2/" + doc
+    copyfile("docs/Clean_Punctuation/" + doc, _doc)
+    fix_file_format(_doc)
+    yap(_doc)
+    type_A(doc_type1)
+    type_B(doc_type2)
+
+
+def main():
+    docs = [f for f in listdir("docs/Clean_Punctuation") if isfile(join("docs/Clean_Punctuation", f))]
+
+    for doc in tqdm(docs):
+        process_doc(doc)
+
+
+if __name__ == '__main__':
+    start_time = datetime.now()
+    main()
+    end_time = datetime.now()
+    print('Duration: {}'.format(end_time - start_time))
