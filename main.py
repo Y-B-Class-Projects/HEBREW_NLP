@@ -79,7 +79,7 @@ def my_unzip(docs_list):
 
 
 def my_csv():
-    pd.options.display.max_rows = 10
+    pd.options.display.max_rows = 102
     df = pd.read_csv('180000.csv', names=["num", "doc", "type"])
     my_docs = df["doc"][:30000].tolist()
     my_docs.sort()
@@ -102,11 +102,11 @@ def main():
     docs = [f for f in listdir("docs/Clean_Punctuation") if isfile(join("docs/Clean_Punctuation", f))]
 
     for doc in tqdm(docs[1000:10000]):
-        #if not isfile(join("docs/type_2", doc)):
-        try:
-            process_doc(doc)
-        except Exception as ex:
-            print("ERROR", doc, ex)
+        if not isfile(join("docs/type_2", doc)):
+            try:
+                process_doc(doc)
+            except Exception as ex:
+                print("ERROR", doc, ex)
 
 
 if __name__ == '__main__':
